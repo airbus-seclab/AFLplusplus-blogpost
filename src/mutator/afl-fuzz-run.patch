@@ -1,0 +1,25 @@
+diff --git a/src/afl-fuzz-run.c b/src/afl-fuzz-run.c
+index 7dd83150..5d22316b 100644
+--- a/src/afl-fuzz-run.c
++++ b/src/afl-fuzz-run.c
+@@ -133,7 +133,7 @@ write_to_testcase(afl_state_t *afl, void **mem, u32 len, u32 fix) {
+ 
+     }
+ 
+-    if (new_mem != *mem) { *mem = new_mem; }
++    // if (new_mem != *mem) { *mem = new_mem; }
+ 
+     if (unlikely(afl->custom_mutators_count)) {
+ 
+@@ -153,8 +153,9 @@ write_to_testcase(afl_state_t *afl, void **mem, u32 len, u32 fix) {
+     if (likely(!sent)) {
+ 
+       /* everything as planned. use the potentially new data. */
+-      afl_fsrv_write_to_testcase(&afl->fsrv, *mem, new_size);
+-      len = new_size;
++      // afl_fsrv_write_to_testcase(&afl->fsrv, *mem, new_size);
++      // len = new_size;
++      afl_fsrv_write_to_testcase(&afl->fsrv, new_mem, new_size);
+ 
+     }
+ 

@@ -1,0 +1,34 @@
+diff --git a/proto/asn1-pdu/Makefile b/proto/asn1-pdu/Makefile
+new file mode 100644
+index 0000000..7de6a34
+--- /dev/null
++++ b/proto/asn1-pdu/Makefile
+@@ -0,0 +1,8 @@
++LPM_DIR=../../../libprotobuf-mutator
++PROTOBUF_DIR=$(LPM_DIR)/build/external.protobuf
++
++all:
++	g++ -c -Wall -fPIC *.cc -I$(LPM_DIR) -I$(PROTOBUF_DIR)/include
++
++clean:
++	$(RM) *.o
+diff --git a/proto/asn1-pdu/common.h b/proto/asn1-pdu/common.h
+index c3d0a57..b8e007b 100644
+--- a/proto/asn1-pdu/common.h
++++ b/proto/asn1-pdu/common.h
+@@ -17,6 +17,8 @@
+ #ifndef PROTO_ASN1_PDU_COMMON_H_
+ #define PROTO_ASN1_PDU_COMMON_H_
+ 
++#include <stddef.h>
++
+ #include <stdint.h>
+ 
+ #include <vector>
+@@ -82,4 +84,4 @@ void EncodeTagAndLength(uint8_t tag_byte,
+ // that |der| remains a valid DER encoding.
+ void ReplaceTag(uint8_t tag_byte, size_t pos_of_tag, std::vector<uint8_t>& der);
+ 
+-#endif  // PROTO_ASN1_PDU_COMMON_H_
+\ No newline at end of file
++#endif  // PROTO_ASN1_PDU_COMMON_H_

@@ -1,0 +1,4 @@
+.vscode
+AFLplusplus
+libprotobuf-mutator
+google-fuzzing
