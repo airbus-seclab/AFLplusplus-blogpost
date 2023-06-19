@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This repository contains all scripts and data (as well as an ELF target) to follow along as you read the associated blogpost by experimenting on your own on one example: [src/target.c](./src/target.c) (the source code of the **target**).
+This repository contains all scripts and data (as well as an ELF target) to follow along as you read the [associated blogpost](https://airbus-seclab.github.io/AFLplusplus-blogpost) by experimenting on your own on one example: [src/target.c](./src/target.c) (the source code of the **target**).
 
 Repository organization:
 
