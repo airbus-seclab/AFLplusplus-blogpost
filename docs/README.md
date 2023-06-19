@@ -98,11 +98,11 @@ int parse_cert_buf(const unsigned char *buf, size_t len) {
     char cn[MAX_CN_SIZE];
 
     cert = d2i_X509(NULL, &buf, len);
-    // ...
+    ...
     char *subj = X509_NAME_oneline(X509_get_subject_name(cert), NULL, 0);
     strcpy(cn, subj);  // Oops
     printf("Got CN='%s' from certificate\n", cn);
-    // ...
+    ...
 }
 ```
 
@@ -133,7 +133,7 @@ Since our example is straightforward, it should not take you too long to find
 the vulnerable code, the call trace, and to **identify the function of
 interest**: `parse_cert_buf`.
 
-```
+```asm
 00000000000013d4 <parse_cert_buf>:
     13d4: 55                    push   rbp
     13d5: 48 89 e5              mov    rbp,rsp
