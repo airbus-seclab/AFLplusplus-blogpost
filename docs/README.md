@@ -98,11 +98,11 @@ int parse_cert_buf(const unsigned char *buf, size_t len) {
     char cn[MAX_CN_SIZE];
 
     cert = d2i_X509(NULL, &buf, len);
-    ...
+    // ...
     char *subj = X509_NAME_oneline(X509_get_subject_name(cert), NULL, 0);
     strcpy(cn, subj);  // Oops
     printf("Got CN='%s' from certificate\n", cn);
-    ...
+    // ...
 }
 ```
 
@@ -415,7 +415,7 @@ by leveraging yet another AFL++ feature: persistent mode.
 
 ## Persistence
 
-### Persistent mode ([step3](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step0))
+### Persistent mode ([step3](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step3))
 
 #### Environment variables
 
@@ -632,13 +632,13 @@ implements this feature in `x509_certificate::X509CertificateToDER`.
 
 An overview of this whole process is presented below:
 
-![protobuf to asn1](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/docs/img/afl++-protobuf-asn1.svg)
+![protobuf to asn1]((./img/afl++-protobuf-asn1.svg)
 
 As before, we need to adjust the format of the files in our corpus to align with
 our fuzzing harness. This time around we need to convert our ASN.1 DER files to
 protobuf. To that end, we implemented a custom script
 ([asn1_to_protobuf.py](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/src/mutator/asn1_to_protobuf.py)), which is run once
-by this step's [build_corpus.sh](./build_corpus.sh).
+by this step's [build_corpus.sh](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step4/build_corpus.sh).
 
 #### Environment variables
 
