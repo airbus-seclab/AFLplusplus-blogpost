@@ -632,7 +632,7 @@ implements this feature in `x509_certificate::X509CertificateToDER`.
 
 An overview of this whole process is presented below:
 
-![protobuf to asn1]((./img/afl++-protobuf-asn1.svg)
+![protobuf to asn1](./img/afl++-protobuf-asn1.svg)
 
 As before, we need to adjust the format of the files in our corpus to align with
 our fuzzing harness. This time around we need to convert our ASN.1 DER files to
@@ -785,7 +785,7 @@ AFL++ provides the following tools to monitor running instances' status:
   $ afl-plot output/afl-main /tmp/plot
   ```
 
-  ![Example afl-plot output](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/docs/img/afl-plot.png)
+  ![Example afl-plot output](./img/afl-plot.png)
 
 ### Prospects on evaluating a campaign
 
