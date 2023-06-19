@@ -177,7 +177,7 @@ openssl:
 $ openssl req -nodes -new -x509 -keyout key.pem -out cert.pem
 ```
 
-To make things simpler, we already provide one in the [corpus](../step0/corpus)
+To make things simpler, we already provide one in the [corpus](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step0/corpus)
 folder.
 
 ### Pre-processing corpus
@@ -191,7 +191,7 @@ Before using this corpus, we can:
    future mutations more effective.
 
 We combined these two steps into a single
-[build_corpus.sh](../step0/build_corpus.sh) script.
+[build_corpus.sh](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step0/build_corpus.sh) script.
 
 Now, assuming you followed the steps in `README.md` to build AFL++, you can go
 ahead and run `build_corpus.sh` from the `step0` directory. This will go through
@@ -209,16 +209,16 @@ build coverage information, AFL++-QEMU needs to know which basic blocks have
 been reached. This is achieved by instrumenting each basic block to track when
 it is hit.
 
-### Default setup ([step0](../step0))
+### Default setup ([step0](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step0))
 
-By launching AFL++-QEMU by default, as in the [step0](../step0), **all the basic
+By launching AFL++-QEMU by default, as in the [step0](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step0), **all the basic
 blocks of the target** are instrumented, and shared libraries are **not**
 included in the instrumentation.
 
 Take note of the `exec speed` indicator: you can keep an eye on how it evolves
 with each step of our post.
 
-### Instrumentation tuning ([step1](../step1))
+### Instrumentation tuning ([step1](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step1))
 
 It is common to study targets for which it is interesting to change this default
 instrumentation behavior. Reasons can include:
@@ -240,7 +240,7 @@ In our example, while it is crucial to instrument `parse_cert_buf`, it is less
 relevant to instrument `main` for example, nor shared libraries (e.g.
 `libssl.so`). To configure this, we limit the instrumentation to the function of
 interest only. This is done by setting `AFL_QEMU_INST_RANGES` (see
-[step1](../step1)):
+[step1](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step1)):
 
 - starting at the address of the first instruction of `parse_cert_buf`;
 - ending at the address of the last instruction of `parse_cert_buf`.
@@ -335,7 +335,7 @@ $ objdump -d --start-address=0x11a0 ../src/target | head -n20
 
 With this configuration, the whole target runs for each iteration.
 
-### Choice of positioning ([step2](../step2))
+### Choice of positioning ([step2](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step2))
 
 In some cases (like in our example), the initialization phase of the program may
 take time. Because initialization is performed for each iteration, there is a
@@ -362,7 +362,7 @@ since:
   (`parse_cert`).
 
 We can thus set the `AFL_ENTRYPOINT` to the start of the `parse_cert` function
-(see [step2](../step2)):
+(see [step2](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step2)):
 
 ```sh
 # Define a custom AFL++ entrypoint executed later than the default (the binary's
@@ -415,7 +415,7 @@ by leveraging yet another AFL++ feature: persistent mode.
 
 ## Persistence
 
-### Persistent mode ([step3](../step3))
+### Persistent mode ([step3](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step0))
 
 #### Environment variables
 
@@ -463,11 +463,11 @@ state, so we only set `AFL_QEMU_PERSISTENT_GPR`. We also increase
 impact our stability.
 
 You can directly test this using the files provided in the
-[step3 folder](../step3). You can also confirm for yourself that the performance
+[step3 folder](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step3). You can also confirm for yourself that the performance
 boost described in the AFL++ documentation is really there: we get more than 10
 times more iterations per second according to our tests!
 
-### In-memory fuzzing ([step4](../step4))
+### In-memory fuzzing ([step4](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step4))
 
 Despite using persistent mode, there are still operations which are needlessly
 performed by our target before reaching the fuzzed function, notably opening and
@@ -478,7 +478,7 @@ the fuzzer's memory!
 #### Hook
 
 To do so, we have to implement a "hook". It is actually extremely simple, and
-its source code is provided in [this file](../src/hook/hook.c):
+its source code is provided in [this file](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/src/hook/hook.c):
 
 - we define an `afl_persistent_hook_init` function which declares whether we
   want to use in-memory fuzzing or not;
@@ -541,7 +541,7 @@ the content of this file is no longer relevant (because `read_file` is no longer
 called), we can just manually create an empty placeholder before calling our
 program.
 
-You can find this new setup in the [step4 folder](../step4).
+You can find this new setup in the [step4 folder](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step4).
 
 ### Impact on performance
 
@@ -558,7 +558,7 @@ course keep an eye on other indicators such as stability, newly discovered paths
 coverage, etc.
 
 
-## Grammar-aware mutator ([step5](../step5))
+## Grammar-aware mutator ([step5](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step5))
 
 ### Motivations
 
@@ -613,7 +613,7 @@ We took inspiration from
 and [existing skeletons](https://github.com/P1umer/AFLplusplus-protobuf-mutator)
 to build the "glue" between AFL++ and our custom mutator.
 
-The result lives in [custom_mutator.cpp](../src/mutator/custom_mutator.cpp), and
+The result lives in [custom_mutator.cpp](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/src/mutator/custom_mutator.cpp), and
 implements the following functions from the AFL++ API:
 
 * `afl_custom_init` to initialize our custom mutator;
@@ -632,12 +632,12 @@ implements this feature in `x509_certificate::X509CertificateToDER`.
 
 An overview of this whole process is presented below:
 
-![protobuf to asn1](./img/afl++-protobuf-asn1.svg)
+![protobuf to asn1](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/docs/img/afl++-protobuf-asn1.svg)
 
 As before, we need to adjust the format of the files in our corpus to align with
 our fuzzing harness. This time around we need to convert our ASN.1 DER files to
 protobuf. To that end, we implemented a custom script
-([asn1_to_protobuf.py](../src/mutator/asn1_to_protobuf.py)), which is run once
+([asn1_to_protobuf.py](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/src/mutator/asn1_to_protobuf.py)), which is run once
 by this step's [build_corpus.sh](./build_corpus.sh).
 
 #### Environment variables
@@ -658,7 +658,7 @@ export AFL_CUSTOM_MUTATOR_ONLY=1
 
 #### Applied to our example
 
-You can find this new setup in the [step5 folder](../step5).
+You can find this new setup in the [step5 folder](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step5).
 
 ### Impact
 
@@ -673,7 +673,7 @@ using the default AFL++ mutations: you can have the best of both worlds by
 running several instances of the fuzzer, as we'll discuss in the next step.
 
 
-## Multiprocessing ([step6](../step6))
+## Multiprocessing ([step6](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step6))
 
 This step is where we bring everything together to run our actual fuzzing
 campaign. Indeed, in a real campaign, you would not limit yourself to fuzzing on
@@ -744,7 +744,7 @@ without this mutator. Thus, we need one corpus in ASN.1 (`corpus_unique`), and
 one in protobuf (`corpus_protobuf_unique`), with separate output directories.
 
 An example of such multi-corpus setup is available in the
-[step6 folder](../step6). Note that, contrary to other steps, most interesting
+[step6 folder](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step6). Note that, contrary to other steps, most interesting
 changes are in the `fuzz.sh` file rather than in `afl_config.sh`.
 
 
@@ -785,7 +785,7 @@ AFL++ provides the following tools to monitor running instances' status:
   $ afl-plot output/afl-main /tmp/plot
   ```
 
-  ![Example afl-plot output](./img/afl-plot.png)
+  ![Example afl-plot output](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/docs/img/afl-plot.png)
 
 ### Prospects on evaluating a campaign
 
@@ -794,7 +794,7 @@ binary-only targets. It is out of scope of this particular post, but you can
 find interesting resources
 [in the official documentation](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/fuzzing_in_depth.md#g-checking-the-coverage-of-the-fuzzing).
 
-A typical command in the context of our [step6 folder](../step6) would be the
+A typical command in the context of our [step6 folder](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/step6) would be the
 following:
 
 ```bash
@@ -817,7 +817,7 @@ Useful tools to understand these results can be:
 In addition, for cases discovered by the custom mutator, the inputs will be in
 the protobuf format, which can't easily be replayed directly on the target. For
 that, we implemented a simple program which allows converting protobuf back to
-ASN.1 (see [protobuf_to_der.cpp](../src/mutator/protobuf_to_der.cpp)).
+ASN.1 (see [protobuf_to_der.cpp](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/src/mutator/protobuf_to_der.cpp)).
 
 
 ## Where we've gotten to so far
