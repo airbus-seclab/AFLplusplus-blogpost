@@ -92,7 +92,7 @@ Intentionally, this target contains a trivial vulnerability which we want to
 reach during our fuzzing campaign: a stack-based buffer overflow in
 `parse_cert_buf`:
 
-```C
+```c
 int parse_cert_buf(const unsigned char *buf, size_t len) {
     X509 *cert;
     char cn[MAX_CN_SIZE];
