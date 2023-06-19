@@ -41,7 +41,7 @@ With QEMU mode, different aspects are configurable to optimize fuzzing
 performance and coverage.
 The [official documentation](https://github.com/AFLplusplus/AFLplusplus/blob/stable/qemu_mode/README.md)
 describes all the features available. Among them:
-be clear what users have to be able to do to run all steps (e.g. apply patches, why they are needed, etc)
+be clear what users have to be able to do to run all steps (e.g. apply patches, why they are needed, etc.).
 - Instrumentation and coverage:
   - `AFL_INST_LIBS`
   - `AFL_QEMU_INST_RANGES`
@@ -53,7 +53,7 @@ be clear what users have to be able to do to run all steps (e.g. apply patches, 
   - `AFL_QEMU_PERSISTENT_ADDR`/`AFL_QEMU_PERSISTENT_ADDR_RET`
   - `AFL_QEMU_PERSISTENT_HOOK`
   - `AFL_DISABLE_TRIM`
-  - `AFL_DEBUG`/`AFL_DEBUG_CHILD`
+  - `AFL_DEBUG`/`AFL_DEBUG_CHILD`.
 
 However, going **from theory to practice** sometimes appears **tedious** and
 often raises some **recurring questions** such as:
