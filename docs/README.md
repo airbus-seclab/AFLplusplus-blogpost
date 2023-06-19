@@ -73,7 +73,7 @@ target**, which could be **reused and applied to other similar projects**.
 
 ### A weak X509 parser
 
-The [example](../src) we chose is inspired by real-life targets we encountered
+The [example](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/src) we chose is inspired by real-life targets we encountered
 during security evaluations (but cannot redistribute for obvious reasons). It is
 a binary which expects a filename as input and tries to parse the corresponding
 file's content as an X509 certificate.
@@ -113,7 +113,7 @@ target slow to spin up.
 ### Exploring the target
 
 In real life, targets are obviously not as simple as our
-[weak X509 parser](../src/target.c). Indeed, a good fuzzing campaign of a
+[weak X509 parser](https://github.com/airbus-seclab/AFLplusplus-blogpost/tree/main/src/target.c). Indeed, a good fuzzing campaign of a
 binary-only target always starts with a phase of reverse engineering to:
 
 - understand the target, how it works, how it interacts with its environment,
@@ -514,7 +514,7 @@ As discussed, we want to change `AFL_QEMU_PERSISTENT_ADDR` to skip the call to
 
   Because `base64_decode` is implemented by a trusted external library which we
   don't want to fuzz (in this case, OpenSSL) intend to fuzz specifically, we'll
-  pic the second option.
+  pick the second option.
 
 Thus, we can move the `AFL_QEMU_PERSISTENT_ADDR` to the address of
 `parse_cert_buf`:
