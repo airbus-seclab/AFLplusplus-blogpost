@@ -512,8 +512,7 @@ As discussed, we want to change `AFL_QEMU_PERSISTENT_ADDR` to skip the call to
   will not be fuzzed.
 
   Because `base64_decode` is implemented by a trusted external library which we
-  don't want to fuzz (in this case, OpenSSL) intend to fuzz specifically, we'll
-  pick the second option.
+  don't want to fuzz (in this case, OpenSSL), we'll pick the second option.
 
 Thus, we can move the `AFL_QEMU_PERSISTENT_ADDR` to the address of
 `parse_cert_buf`:
@@ -586,25 +585,24 @@ mutations:
 In most cases, these mutations are sufficient to explore the code to fuzz. Some
 data formats have internal constraints that will result in samples being
 prematurely rejected because these are not met. This is for instance the case
-for ASN1 which the format used in our chosen example. Generating mutations
-without accounting for these constraints justs lead to most samples being
-immediately without achieving any added coverage. This way, the fuzzing campaign
-will **require time before converging** to
-relevant generated cases and users would be prone to guide the fuzzer to
-generate valid inputs and let the fuzzer explore what is done by the target with
-the effective payload.
+for ASN.1, the format used in our example: generating mutations without
+accounting for these constraints may lead to most samples being immediately
+discarded as invalid by the target without achieving any added coverage. This
+means the fuzzing campaign will **require time before converging** to relevant
+generated cases.
 
 To address this type of situation, AFL++ allows user to provide their own custom
-mutators. As detailed in the [official documentation](https://aflplus.plus/docs/custom_mutators),
-a **custom mutator can be plugged to AFL++** as long as this mutator implements
-the required API functions.
+mutators to guide the fuzzer to generate more fitting inputs. As detailed in the
+[official documentation](https://aflplus.plus/docs/custom_mutators), a **custom
+mutator can be plugged to AFL++** as long as this mutator implements the
+required API functions.
 
 ### Implementation
 
 Several options exist to implement grammar-aware mutators in AFL++, one of them
-being the [Grammar Mutator part of the AFL++ project](https://github.com/AFLplusplus/Grammar-Mutator),
-however it doesn't offer support for ASN1. Support for ASN1 is what steered us
-towards [libprotobuf](https://github.com/google/libprotobuf-mutator), which
+being the [Grammar Mutator part of the AFL++ project](https://github.com/AFLplusplus/Grammar-Mutator).
+However, as it doesn't offer support for ASN.1, we relied instead on
+[libprotobuf](https://github.com/google/libprotobuf-mutator), which
 [handles ASN.1](https://github.com/google/fuzzing/tree/master/proto/asn1-pdu).
 
 We took inspiration from
@@ -733,10 +731,10 @@ You can find a summary of these changes in the following table:
 
 | Configuration      | Targeted function    | Expected input format |
 |--------------------|----------------------|-----------------------|
-| Default entrypoint | `main()`             | `base64(valid ASN1)`  |
-| Custom entrypoint  | `main()`             | `base64(valid ASN1)`  |
-| In-memory fuzzing  | `parse_cert_buf()`   | `ASN1 / DER`          |
-| Custom mutator     | `parse_cert_buf()`   | `protobuf`->`ASN1`    |
+| Default entrypoint | `main()`             | `base64(ASN.1)`       |
+| Custom entrypoint  | `main()`             | `base64(ASN.1)`       |
+| In-memory fuzzing  | `parse_cert_buf()`   | `ASN.1 / DER`         |
+| Custom mutator     | `parse_cert_buf()`   | `protobuf`->`ASN.1`   |
 
 In this step, we run an instance with our custom mutator, and several instances
 without this mutator. Thus, we need one corpus in ASN.1 (`corpus_unique`), and
@@ -786,7 +784,7 @@ AFL++ provides the following tools to monitor running instances' status:
 
   ![Example afl-plot output](./img/afl-plot.png)
 
-### Prospects on evaluating a campaign
+### Measuring coverage
 
 Checking coverage is another matter, with various particularities for
 binary-only targets. It is out of scope of this particular post, but you can
