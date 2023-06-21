@@ -643,7 +643,7 @@ by this step's [build_corpus.sh](https://github.com/airbus-seclab/AFLplusplus-bl
 #### Environment variables
 
 With this, all that is left is to instruct AFL++ to use our custom mutator. For
-this, we simply set `AFL_QEMU_PERSISTENT_HOOK` to the path of our `.so` file:
+this, we simply set `AFL_CUSTOM_MUTATOR_LIBRARY` to the path of our `.so` file:
 
 ```sh
 export AFL_CUSTOM_MUTATOR_LIBRARY="$BASEPATH/libmutator.so"
