@@ -1,2 +1,3 @@
 theme: jekyll-theme-slate
 title: "Advanced binary fuzzing using AFL++-QEMU and libprotobuf: a practical case of grammar-aware in-memory persistent fuzzing"
+authors: Jean-Romain Garnier, Anaïs Gantet
